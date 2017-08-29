@@ -31,8 +31,12 @@ app.controller('EventsCtrl', ['$scope', 'Event', function($scope, Event){
  $scope.editing = {};
 	$scope.toggleForm =  function(event){
 		if(event.id === $scope.editing.id){
+			// console.log("rerturning form", event.id);
+			// console.log("rerturning form", $scope.editing.id);
 			return 'form';
 		}else{
+			// console.log("rerturning row", event.id);
+			// console.log("rerturning row", $scope.editing.id);
 			return 'row';
 		}
 	};
@@ -48,6 +52,14 @@ app.controller('EventsCtrl', ['$scope', 'Event', function($scope, Event){
       },
       function(response) {
         alert('Errors: ' + reponse.data.errors.join('. '));
+      }
+    );
+  };
+
+   $scope.destroyEvent = function(event, index) {
+    Event.deleteData().delete(event,
+      function(response, _headers) {
+        $scope.events.splice(index, 1);
       }
     );
   };

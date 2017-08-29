@@ -14,13 +14,25 @@ app.factory('Event', ['$resource', function($resource){
 		},
 		updateData : function () {
 			return $resource('/api/events/:id.json', { id: '@id' }, {
-		    update: { method: 'PUT' }
-		   });
+				update: { method: 'PUT' }
+			});
 		},
 		saveData : function () {
 			return $resource('/api/events.json', {
-		    save: { method: 'POST' }
-		  });
+				save: { method: 'POST' }
+			});
+		},
+		deleteData: function(){
+			return $resource('/api/events/:id.json', { id: '@id' }, {
+				delete: {
+					action: 'destroy',
+					method: 'DELETE',
+					url: '/api/events/:id.json',
+					params: {
+						id: '@id'
+					}	
+				}
+			});	
 		}
 	}
 }]);

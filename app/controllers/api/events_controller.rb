@@ -1,6 +1,6 @@
 class Api::EventsController < ApplicationController
 	respond_to :json
-	before_action :set_event, only: [:update]
+	before_action :set_event, only: [:update, :destroy]
 
 	def index
 		@events = Event.all
@@ -29,6 +29,11 @@ class Api::EventsController < ApplicationController
   	events = Event.where('name ILIKE ? OR place ILIKE ? OR description ILIKE ?',
                            "%#{query}%", "%#{query}%", "%#{query}%")
     respond_with events
+  end
+
+  def destroy
+  	@event.destroy
+  	head :ok  	
   end
 
 
