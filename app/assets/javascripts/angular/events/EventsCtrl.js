@@ -20,17 +20,17 @@ app.controller('EventsCtrl', ['$scope', 'Event', function($scope, Event){
 		!!$scope.event.description && !!$scope.event.place;
 	};
 
-  $scope.filterEvents = function(){
-  	Event.searchData().search({query: $scope.search}, function(response, _headers){
-  		$scope.events = response;
-  	});
-  };
-  $scope.filterEvents();
+	$scope.filterEvents = function(){
+		Event.searchData().search({query: $scope.search}, function(response, _headers){
+			$scope.events = response;
+		});
+	};
+	$scope.filterEvents();
 
  // form inline edit 
  $scope.editing = {};
-	$scope.toggleForm =  function(event){
-		if(event.id === $scope.editing.id){
+ $scope.toggleForm =  function(event){
+ 	if(event.id === $scope.editing.id){
 			// console.log("rerturning form", event.id);
 			// console.log("rerturning form", $scope.editing.id);
 			return 'form';
@@ -44,27 +44,58 @@ app.controller('EventsCtrl', ['$scope', 'Event', function($scope, Event){
 	$scope.editEvent = function(event) {
 		$scope.editing = angular.copy(event);
 	}
- $scope.updateEvent = function(index) {
-    Event.updateData().update($scope.editing,
-      function(response, _headers) {
-        $scope.events[index] = angular.copy($scope.editing);
-        $scope.hideForm();
-      },
-      function(response) {
-        alert('Errors: ' + reponse.data.errors.join('. '));
-      }
-    );
-  };
+	$scope.updateEvent = function(index) {
+		Event.updateData().update($scope.editing,
+			function(response, _headers) {
+				$scope.events[index] = angular.copy($scope.editing);
+				$scope.hideForm();
+			},
+			function(response) {
+				alert('Errors: ' + reponse.data.errors.join('. '));
+			}
+			);
+	};
 
-   $scope.destroyEvent = function(event, index) {
-    Event.deleteData().delete(event,
-      function(response, _headers) {
-        $scope.events.splice(index, 1);
-      }
-    );
-  };
+	$scope.destroyEvent = function(event, index) {
+		Event.deleteData().delete(event,
+			function(response, _headers) {
+				$scope.events.splice(index, 1);
+			}
+			);
+	};
 
-  $scope.hideForm = function() {
-    $scope.editing = {};
-  };
+	$scope.hideForm = function() {
+		$scope.editing = {};
+	};
+
+	$scope.sorting = {
+		sort_by: 'name',
+		order: 'asc'
+	};
+	$scope.sortEvents = function(sort_by, order){
+		if ($scope.sorting.sort_by == sort_by){
+			order = (order == 'asc' ? 'desc' : 'asc');
+		}else{
+			order = 'asc';
+		}
+
+	Event.sortData().sort({sortable: {sort_by: sort_by, order: order}}, 
+		function(response, _headers){
+			$scope.events =  response;
+			$scope.sorting = {
+				sort_by: sort_by,
+				order: order
+			};
+		});
+	}
+
+	$scope.updateArrowOrder = function() {
+		$scope.order = $scope.sorting.order == 'asc' ? 'up' : 'down';
+	};
+
+	$scope.updateArrowOrder();
+
+	$scope.$watch('sorting.order', function(oldVal, newVal) {
+		$scope.updateArrowOrder();
+	});
 }]);

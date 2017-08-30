@@ -28,3 +28,7 @@
 .ng-valid.ng-dirty{
 	border-color: green;
 }
+
+.text-underline{
+	text-decoration: underline;
+}

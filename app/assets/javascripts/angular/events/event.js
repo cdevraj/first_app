@@ -33,6 +33,16 @@ app.factory('Event', ['$resource', function($resource){
 					}	
 				}
 			});	
+		},
+		sortData: function(){
+			return $resource('/api/events/:id.json',{id: '@id'} ,{
+				sort: {
+					method: 'GET',
+					isArray: true,
+					url: '/api/events.json',
+					params: '@sortable'
+				}
+			});
 		}
 	}
 }]);

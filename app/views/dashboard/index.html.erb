@@ -30,10 +30,22 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="col-md-2">Name</th>
-							<th class="col-md-2">Date</th>
-							<th class="col-md-3">Place</th>
-							<th class="col-md-2">Description</th>
+							<th ng-click="sortEvents('name', sorting.order)" ng-class="sorting.sort_by == 'name' ? 'text-underline' : ''" class="col-md-3">
+								Name
+								<span ng-if="sorting.sort_by == 'name'" class="glyphicon glyphicon-chevron-{{order}}" aria-hidden="true"></span>
+							</th>
+							<th ng-click="sortEvents('event_date', sorting.order)" ng-class="sorting.sort_by == 'event_date' ? 'text-underline' : ''" class="col-md-2">
+								Date
+								<span ng-if="sorting.sort_by == 'event_date'" class="glyphicon glyphicon-chevron-{{order}}" aria-hidden="true"></span>
+							</th>
+							<th ng-click="sortEvents('place', sorting.order)" ng-class="sorting.sort_by == 'place' ? 'text-underline' : ''" class="col-md-2">
+								Place
+								<span ng-if="sorting.sort_by == 'place'" class="glyphicon glyphicon-chevron-{{order}}" aria-hidden="true"></span>
+							</th>
+							<th ng-click="sortEvents('description', sorting.order)" ng-class="sorting.sort_by == 'description' ? 'text-underline' :''" class="col-md-3">
+								Description
+								<span ng-if="sorting.sort_by == 'description'" class="glyphicon glyphicon-chevron-{{order}}" aria-hidden="true"></span>
+							</th>
 							<th class="col-md-2">Actions</th>
 						</tr>
 					</thead>

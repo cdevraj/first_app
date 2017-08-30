@@ -3,7 +3,7 @@ class Api::EventsController < ApplicationController
 	before_action :set_event, only: [:update, :destroy]
 
 	def index
-		@events = Event.all
+		@events = Event.order("#{sort_by} #{order}")
 		respond_with @events
 	end
   
@@ -38,6 +38,17 @@ class Api::EventsController < ApplicationController
 
 
   private
+
+  def sort_by
+  	sort_params = JSON.parse(params['sortable'])
+  	sortable_cols =  Event.column_names -	%w(id created_at updated_at)
+  	sortable_cols.include?(sort_params['sort_by']) ? sort_params['sort_by'] : "name"
+  end
+
+  def order
+  	sort_params = JSON.parse(params['sortable'])
+  	%w(asc desc).include?(sort_params['order']) ? sort_params['order'] : 'asc'
+  end
 
   def set_event
   	@event = Event.find(params[:id])	
